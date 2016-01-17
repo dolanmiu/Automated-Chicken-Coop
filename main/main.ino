@@ -1,11 +1,24 @@
+#include <Stepper.h>
+
 int motorRelayPin = 3;
 int lightSensorPin = 0;
+
+
+const int stepsPerRevolution = 200; 
+//Stepper myStepper(stepsPerRevolution, 8, 9);
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  analogReference(EXTERNAL);
+  //analogReference(EXTERNAL);
   pinMode(motorRelayPin, OUTPUT);
+  
+  //myStepper.setSpeed(60);
+
+  pinMode(8, OUTPUT);     
+  pinMode(9, OUTPUT);
+  digitalWrite(8, LOW);
+  digitalWrite(9, LOW);
 }
 
 void loop() {
@@ -16,5 +29,25 @@ void loop() {
   digitalWrite(motorRelayPin, LOW);
   delay(1000);*/
   int lightValue = analogRead(lightSensorPin);
-  Serial.println(lightValue);
+  //Serial.println(lightValue);
+  if (lightValue < 20) {
+    digitalWrite(motorRelayPin, HIGH);
+    //Serial.println("Motor power turned on");
+  } else {
+    digitalWrite(motorRelayPin, LOW);
+    //Serial.println("Motor power turned off");
+  }
+
+  //myStepper.step(stepsPerRevolution);
+  //delay(500);
+
+  // step one revolution in the other direction:
+  //Serial.println("counterclockwise");
+  //myStepper.step(-stepsPerRevolution);
+  //delay(500);
+
+  digitalWrite(9, HIGH);
+  delay(1);          
+  digitalWrite(9, LOW); 
+  delay(1); 
 }
