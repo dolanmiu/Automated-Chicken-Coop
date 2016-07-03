@@ -34,6 +34,7 @@ void setup() {
 
 void loop() {
   Serial.println(now());
+  printTime();
   //Serial.println(hour);
   Serial.println("Single coil steps");
   myMotor->step(100, FORWARD, SINGLE); 
