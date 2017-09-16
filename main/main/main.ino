@@ -34,8 +34,9 @@ void setup() {
   // Sync the time weekly
   Alarm.alarmRepeat(dowSaturday, 8, 30, 0, syncTime);
   // Close the Chicken Coop door daily
-  Alarm.alarmRepeat(13, 11, 0, closeCoop);
-  Alarm.timerRepeat(20, closeCoop);
+  Alarm.alarmRepeat(21, 0, 0, closeCoop);
+  // Debug to show that it is working
+  // Alarm.timerRepeat(20, closeCoop);
 }
 
 void loop() {
