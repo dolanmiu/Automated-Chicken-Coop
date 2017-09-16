@@ -36,11 +36,10 @@ void setup() {
   // Close the Chicken Coop door daily
   Alarm.alarmRepeat(13, 11, 0, closeCoop);
   Alarm.timerRepeat(20, closeCoop);
-  Alarm.timerRepeat(2, digitalClockDisplay);
 }
 
 void loop() {
-  // digitalClockDisplay();
+  digitalClockDisplay();
   Alarm.delay(1000); // wait one second between clock display
 }
 
