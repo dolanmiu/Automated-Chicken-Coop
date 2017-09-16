@@ -29,16 +29,19 @@ void setup() {
   myMotor->run(RELEASE);
 
   syncTime();
+  digitalClockDisplay();
 
   // Sync the time weekly
-  Alarm.alarmRepeat(dowSaturday, 8,30,0, syncTime);
+  Alarm.alarmRepeat(dowSaturday, 8, 30, 0, syncTime);
   // Close the Chicken Coop door daily
-  Alarm.alarmRepeat(13,11,0,closeCoop);
-
+  Alarm.alarmRepeat(13, 11, 0, closeCoop);
+  Alarm.timerRepeat(20, closeCoop);
+  Alarm.timerRepeat(2, digitalClockDisplay);
 }
 
 void loop() {
-
+  // digitalClockDisplay();
+  Alarm.delay(1000); // wait one second between clock display
 }
 
 void closeCoop() {  
@@ -46,7 +49,7 @@ void closeCoop() {
 
   myMotor->run(FORWARD);
   // How fast to run the motor
-  myMotor->setSpeed(150);
+  myMotor->setSpeed(50);
   // How long to close door?
   delay(10000);
   // Turn off motor
@@ -56,5 +59,21 @@ void closeCoop() {
 void syncTime() {
   DateTime now = rtc.now();
   setTime(now.hour(), now.minute(), now.second(), now.day(), now.month(), now.year());
+}
+
+
+void digitalClockDisplay() {
+  // digital clock display of the time
+  Serial.print(hour());
+  printDigits(minute());
+  printDigits(second());
+  Serial.println();
+}
+
+void printDigits(int digits) {
+  Serial.print(":");
+  if (digits < 10)
+    Serial.print('0');
+  Serial.print(digits);
 }
 
