@@ -29,7 +29,6 @@ void setup() {
   myMotor->run(RELEASE);
 
   syncTime();
-  digitalClockDisplay();
 
   // Sync the time weekly
   Alarm.alarmRepeat(dowSaturday, 8, 30, 0, syncTime);
