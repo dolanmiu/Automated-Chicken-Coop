@@ -4,6 +4,7 @@
 #include <TimeLib.h>
 #include <TimeAlarms.h>
 #include "RTClib.h"
+#include "LowPower.h"
 
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
@@ -31,7 +32,7 @@ void setup() {
   syncTime();
 
   // Sync the time weekly
-  Alarm.alarmRepeat(dowSaturday, 8, 30, 0, syncTime);
+  // Alarm.alarmRepeat(dowSaturday, 8, 30, 0, syncTime);
   // Close the Chicken Coop door daily
   Alarm.alarmRepeat(21, 0, 0, closeCoop);
   // Debug to show that it is working
@@ -41,6 +42,10 @@ void setup() {
 void loop() {
   digitalClockDisplay();
   Alarm.delay(1000); // wait one second between clock display
+  
+  Serial.flush();
+  LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);
+  syncTime();
 }
 
 void closeCoop() {  
