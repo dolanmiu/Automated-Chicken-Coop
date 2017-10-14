@@ -39,7 +39,7 @@ void setup() {
   Alarm.alarmRepeat(sunset + 1, 0, 0, closeCoop);
   // Debug to show that it is working
   // Alarm.timerRepeat(20, closeCoop);
-  Serial.println("Sunset will be at hour: " + sunset + 1);
+  Serial.println("Chicken door will close at: " + sunset + 1);
 }
 
 void loop() {
