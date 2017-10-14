@@ -5,6 +5,7 @@
 #include <TimeAlarms.h>
 #include "RTClib.h"
 #include "LowPower.h"
+#include <Dusk2Dawn.h>
 
 // Create the motor shield object with the default I2C address
 Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
@@ -16,6 +17,9 @@ Adafruit_DCMotor *myMotor = AFMS.getMotor(1);
 
 // RTC time init
 RTC_DS1307 rtc;
+
+// Set Dusk2Dwan location
+Dusk2Dawn locationDusk2Dawn(51.3809, 0.5221, 0);
 
 void setup() {
   Serial.begin(9600);
@@ -30,13 +34,15 @@ void setup() {
   myMotor->run(RELEASE);
 
   syncTime();
-
+  int sunset = findSunset();
+  
   // Sync the time weekly
   // Alarm.alarmRepeat(dowSaturday, 8, 30, 0, syncTime);
   // Close the Chicken Coop door daily
-  Alarm.alarmRepeat(21, 0, 0, closeCoop);
+  Alarm.alarmRepeat(sunset + 1, 0, 0, closeCoop);
   // Debug to show that it is working
   // Alarm.timerRepeat(20, closeCoop);
+  Serial.println("Sunset will be at hour: " + sunset + 1);
 }
 
 void loop() {
@@ -79,5 +85,11 @@ void printDigits(int digits) {
   if (digits < 10)
     Serial.print('0');
   Serial.print(digits);
+}
+
+int findSunset() {
+  int sunsetMinutes = locationDusk2Dawn.sunset(year(), month(), day(), false);
+  Serial.println("Sunset is at: " + sunsetMinutes);
+  return sunsetMinutes / 60;
 }
 
