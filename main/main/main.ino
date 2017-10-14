@@ -18,9 +18,6 @@ Adafruit_DCMotor *myMotor = AFMS.getMotor(1);
 // RTC time init
 RTC_DS1307 rtc;
 
-// Set Dusk2Dwan location
-Dusk2Dawn locationDusk2Dawn(51.3809, 0.5221, 0);
-
 void setup() {
   Serial.begin(9600);
   Serial.println("Starting Chicken Coop closer");
@@ -88,6 +85,8 @@ void printDigits(int digits) {
 }
 
 int findSunset() {
+  // Set Dusk2Dwan location
+  Dusk2Dawn locationDusk2Dawn(51.3809, 0.5221, 0);
   int sunsetMinutes = locationDusk2Dawn.sunset(year(), month(), day(), false);
   Serial.println("Sunset is at: " + sunsetMinutes);
   return sunsetMinutes / 60;
