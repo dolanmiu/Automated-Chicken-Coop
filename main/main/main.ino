@@ -31,13 +31,13 @@ void setup() {
   myMotor->run(RELEASE);
 
   syncTime();
-  int sunset = findSunset();
+  int sunset = findSunset(true);
   
   // Sync the time weekly
   // Alarm.alarmRepeat(dowSaturday, 8, 30, 0, syncTime);
   // Close the Chicken Coop door daily
-  Alarm.alarmRepeat(sunset + 2, 0, 0, closeCoop);
-  Serial.println("Chicken door will close at: " + String(sunset + 2));
+  Alarm.alarmRepeat(sunset + 1, 0, 0, closeCoop);
+  Serial.println("Chicken door will close at: " + String(sunset + 1));
   // Debug to show that it is working
   // Alarm.timerRepeat(20, closeCoop);
   Serial.flush();
@@ -85,9 +85,9 @@ void printDigits(int digits) {
   Serial.print(digits);
 }
 
-int findSunset() {
+int findSunset(bool dayLightSavings) {
   // Set Dusk2Dwan location
-  Dusk2Dawn locationDusk2Dawn(51.3809, 0.5221, 0);
+  Dusk2Dawn locationDusk2Dawn(51.3809, 0.5221, dayLightSavings ? 1 : 0);
   int sunsetMinutes = locationDusk2Dawn.sunset(year(), month(), day(), false);
   int sunsetHours = sunsetMinutes / 60;
 
