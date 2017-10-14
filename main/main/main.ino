@@ -36,10 +36,11 @@ void setup() {
   // Sync the time weekly
   // Alarm.alarmRepeat(dowSaturday, 8, 30, 0, syncTime);
   // Close the Chicken Coop door daily
-  Alarm.alarmRepeat(sunset + 1, 0, 0, closeCoop);
+  Alarm.alarmRepeat(sunset + 2, 0, 0, closeCoop);
+  Serial.println("Chicken door will close at: " + String(sunset + 2));
   // Debug to show that it is working
   // Alarm.timerRepeat(20, closeCoop);
-  Serial.println("Chicken door will close at: " + sunset + 1);
+  Serial.flush();
 }
 
 void loop() {
@@ -88,7 +89,10 @@ int findSunset() {
   // Set Dusk2Dwan location
   Dusk2Dawn locationDusk2Dawn(51.3809, 0.5221, 0);
   int sunsetMinutes = locationDusk2Dawn.sunset(year(), month(), day(), false);
-  Serial.println("Sunset is at: " + sunsetMinutes);
-  return sunsetMinutes / 60;
+  int sunsetHours = sunsetMinutes / 60;
+
+  Serial.println("Sunset is at: " + String(sunsetMinutes) + " minutes from midnight");
+  Serial.println("Sunset is at: " + String(sunsetHours) + " hours from midnight");
+  return sunsetHours;
 }
 
