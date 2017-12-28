@@ -31,13 +31,10 @@ void setup() {
   myMotor->run(RELEASE);
 
   syncTime();
-  int sunset = findSunset(true);
-  
-  // Sync the time weekly
+  setDailyDoorCloseAlarm();
   // Alarm.alarmRepeat(dowSaturday, 8, 30, 0, syncTime);
-  // Close the Chicken Coop door daily
-  Alarm.alarmRepeat(sunset + 1, 0, 0, closeCoop);
-  Serial.println("Chicken door will close at: " + String(sunset + 1));
+  // Set the next alarm to close door for tomorrow
+  Alarm.alarmRepeat(23, 0, 0, setDailyDoorCloseAlarm);
   // Debug to show that it is working
   // Alarm.timerRepeat(20, closeCoop);
   Serial.flush();
@@ -83,6 +80,13 @@ void printDigits(int digits) {
   if (digits < 10)
     Serial.print('0');
   Serial.print(digits);
+}
+
+void setDailyDoorCloseAlarm() {
+  int sunset = findSunset(false);
+  Serial.println("Chicken door will close at: " + String(sunset + 1));
+  // Close the Chicken Coop door daily
+  Alarm.alarmOnce(sunset + 1, 0, 0, closeCoop);
 }
 
 int findSunset(bool dayLightSavings) {
