@@ -83,7 +83,7 @@ void printDigits(int digits) {
 }
 
 void setDailyDoorCloseAlarm() {
-  int sunset = findSunset(false);
+  int sunset = findSunset(true);
   Serial.println("Chicken door will close at: " + String(sunset + 1));
   // Close the Chicken Coop door daily
   Alarm.alarmOnce(sunset + 1, 0, 0, closeCoop);
